@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var registrationForm = document.getElementById('registrationForm');
+      registrationForm.addEventListener('submit', function (event) {
+        // Validate full name
+        var fullNameInput = document.getElementById('fullName');
+        if (!isValidFullName(fullNameInput.value)) {
+          alert('Please enter a valid full name.');
+          event.preventDefault();
+          return;
+        }
+
+        // Validate registration number
+        var regNumberInput = document.getElementById('registrationNumber');
+        if (!isValidRegistrationNumber(regNumberInput.value)) {
+          alert('Please enter a valid registration number (e.g., BCS-00-0000-0000).');
+          event.preventDefault();
+          return;
+        }
+
+        // Validate email
+        var emailInput = document.getElementById('email');
+        if (!isValidEmail(emailInput.value)) {
+          alert('Please enter a valid email address.');
+          event.preventDefault();
+          return;
+        }
+
+        // Validate password
+        var passwordInput = document.getElementById('password');
+        var confirmPasswordInput = document.getElementById('confirmPassword');
+        if (!isValidPassword(passwordInput.value, confirmPasswordInput.value)) {
+          alert('Please enter a valid password. It should be at least 8 characters long and include at least one special character.');
+          event.preventDefault();
+          return;
+        }
+      });
+
+      // Validation functions
+      function isValidFullName(name) {
+        // Assuming a full name consists of at least two words
+        return name.trim().split(/\s+/).length >= 2;
+      }
+
+      function isValidRegistrationNumber(regNumber) {
+        var regNumberPattern = /^BCS-\d{2}-\d{4}-\d{4}$/;
+        return regNumberPattern.test(regNumber);
+      }
+
+      function isValidEmail(email) {
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
+      }
+
+      function isValidPassword(password, confirmPassword) {
+        // Add your password criteria here
+        var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+        return passwordPattern.test(password) && password === confirmPassword;
+      }
+    });
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>User Registration Form</title>
+</head>
+<body>
+  <header>
+    <h1>Welcome to the Registration Page</h1>
+  </header>
+  <main>
+    <form id="registrationForm">
+      <label for="fullName">Full Name:</label>
+      <input type="text" id="fullName" name="fullName" required>
+
+      <label for="registrationNumber">Registration Number:</label>
+      <input type="text" id="registrationNumber" name="registrationNumber" pattern="BCS-\d{2}-\d{4}-\d{4}" required>
+      
+      <label for="gender">Sex:</label>
+      <select id="gender" name="gender" required>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="region">Select Region:</label>
+      <select id="region" onchange="loadDistricts()">
+      <option value="region1">ARUSHA</option>
+      <option value="region2">DAR-ES-SALAAM</option>
+      <option value="region1">DODOMA</option>
+<option value="region1">GEITA</option>
+      <option value="region2">IRINGA</option>
+      <option value="region1">KAGERA</option>
+      <option value="region2">KATAVI</option>
+      <option value="region1">KIGOMA</option>
+      <option value="region2">KILIMANJARO</option>
+      <option value="region1">LINDI</option>
+      <option value="region2">MARA</option>
+     <option value="region1">MANYARA</option> 
+      <option value="region1">MBEYA</option>
+      <option value="region2">MOROGORO</option>
+      <option value="region2">MWANZA</option>
+      <option value="region1">MTWARA</option>
+      <option value="region2">NJOMBE</option>
+      ption value="region1">PWANI</option>
+      <option value="region2">RUKWA</option>
+      ption value="region1">RUVUMA</option>
+      <option value="region2">SHINYANGA</option>
+      ption value="region1">SIMIYU</option>
+      <option value="region2">SINGIDA</option>
+      ption value="region1">SONGWE</option>
+      <option value="region2">TABORA</option>
+      <option value="region1">TANGA</option>
+      <!-- Add more regions as needed -->
+     </select>
+
+      <label for="district">Select District:</label>
+      <select id="district"></select>
+
+      <script>
+      function loadDistricts() {
+                var regionSelect = document.getElementById("region");
+                var districtSelect = document.getElementById("district");
+
+                // Get the selected region value
+                var selectedRegion = regionSelect.options[regionSelect.selectedIndex].value;
+
+                // Use the selected region value to load corresponding districts
+                // This is where you would fetch data dynamically and populate the district dropdown
+
+                // For demonstration purposes, let's add some sample districts
+                var districts = getDistrictsForRegion(selectedRegion);
+
+                // Clear existing options
+                districtSelect.innerHTML = "";
+
+                // Add new options
+                districts.forEach(function (district) {
+                  var option = document.createElement("option");
+                  option.value = district;
+                  option.text = district;
+                  districtSelect.add(option);
+                });
+              }
+
+              // Example function to get districts based on the selected region
+              function getDistrictsForRegion(region) {
+                // Replace this with actual data fetching logic based on the selected region
+                // For now, returning some sample data
+                if (region === "region1") {
+                  return ["MERU", "ARUSHA CITY",,"ARUSHA RURAL","KARATU","LONGIDO","MONDULI",NGORONGORO];
+                } else if (region === "region2") {
+                  return ["ILALA", "KINONDONI"];
+                } else {
+                  return [];
+                }
+              }
+
+                    </script>
+                  
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+
+      <label for="confirmPassword">Confirm Password:</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+      <button type="submit">Register</button>
+    </form>
+  </main>
+
+  <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="script.js"></script> -->
+</body>
+</html>
+
